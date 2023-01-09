@@ -15,6 +15,7 @@ export const typeDefs = gql`
   input addPacient{
     nombre:String
     celular:String
+    activo:Boolean
   }
   input setPacient{
     activo:Boolean

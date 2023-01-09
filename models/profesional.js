@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(30),
       allowNull: false
     },
-    'contraseña': {
+    password: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -20,16 +20,19 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     especialidad: {
-      type: DataTypes.ENUM('consulta','operaciones','tratamiento de conducto','tratamiento de conducto en molares','extracción','limpieza','protesis'),
+      type: DataTypes.STRING(50),
       allowNull: false,
-      defaultValue: "consulta"
     },
     celular: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(15),
       allowNull: false
     },
     email: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.STRING(45),
+      allowNull: false
+    },
+    avatar: {
+      type: DataTypes.STRING(300),
       allowNull: false
     }
   }, {

@@ -1,31 +1,27 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('notas', {
-    nota: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    nota_id: {
+  return sequelize.define('paciente', {
+    paciente_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    profesional: {
+    nombre: {
       type: DataTypes.STRING(30),
-      allowNull: false,
-      references: {
-        model: 'profesional',
-        key: 'usuario'
-      }
-    },
-    fecha: {
-      type: DataTypes.DATEONLY,
       allowNull: false
+    },
+    celular: {
+      type: DataTypes.STRING(15),
+      allowNull: false
+    },
+    activo:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
     }
   }, {
     sequelize,
-    tableName: 'notas',
+    tableName: 'paciente',
     timestamps: false,
     indexes: [
       {
@@ -33,14 +29,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "nota_id" },
+          { name: "paciente_id" },
         ]
       },
       {
-        name: "profesional",
+        name: "nombre",
         using: "BTREE",
         fields: [
-          { name: "profesional" },
+          { name: "nombre" },
         ]
       },
     ]

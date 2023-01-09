@@ -4,12 +4,12 @@ require('dotenv').config()
 var db = {}
 
 const sequelize = new Sequelize(
-    'DATABASE_NAME',
-    'DATABASE_USER',
-    'DATABASE_PASSWORD',
+    process.env.DATABASE_NAME,
+    process.env.DATABASE_USER,
+    process.env.DATABASE_PASSWORD,
     {
-        host: 'DATABASE_HOST',
-        port: 'DATABASE_PORT',
+        host: process.env.DATABASE_HOST,
+        port: process.env.DATABASE_PORT,
         dialect: 'mysql',
         define: {
             freezeTableName: true,
@@ -21,12 +21,16 @@ const sequelize = new Sequelize(
             idle: 10000,
         },
         // <http://docs.sequelizejs.com/manual/tutorial/querying.html#operators>
-        operatorsAliases: false,
+        operatorsAliases: 0,
     },
 )
 
 let models = [
   require('../models/horarios.js'),
+  require('../models/notas.js'),
+  require('../models/paciente.js'),
+  require('../models/profesional.js'),
+
 ]
 
 // Initialize models

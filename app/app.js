@@ -11,8 +11,9 @@ app.use(cors())
 const server = new ApolloServer({
     modules: [
         require('./GraphQL/horarios.js'),
-        require('./GraphQL/paciente.js')
-
+        require('./GraphQL/paciente.js'),
+        require('./GraphQL/notas.js'),
+        require('./GraphQL/profesional.js')
     ],
 })
 

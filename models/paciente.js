@@ -15,9 +15,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(15),
       allowNull: false
     },
-    activo:{
+    activo: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: 1
     }
   }, {
     sequelize,

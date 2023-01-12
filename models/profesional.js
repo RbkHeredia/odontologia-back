@@ -20,8 +20,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     especialidad: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
+      type: DataTypes.CHAR(50),
+      allowNull: false
     },
     celular: {
       type: DataTypes.STRING(15),

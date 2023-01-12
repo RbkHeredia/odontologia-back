@@ -23,9 +23,17 @@ module.exports = function(sequelize, DataTypes) {
         key: 'nombre'
       }
     },
+    hora: {
+      type: DataTypes.ENUM('NINE','NINEH','TEN','TENH','ELEVEN','ELEVENH','TWELVE','TWELVEH','FOURTEEN','FOURTEENH','FIFTEEN','FIFTEENH','SIXTEEN','SIXTEENH','SEVENTEEN','SEVENTEENH'),
+      allowNull: true
+    },
     duracion: {
-      type: DataTypes.TIME,
+      type: DataTypes.ENUM('HALF', 'ONE', 'ONEH', 'TWO'),
       allowNull: false
+    },
+    fecha: {
+      type: DataTypes.STRING(),
+      allowNull:false
     }
   }, {
     sequelize,

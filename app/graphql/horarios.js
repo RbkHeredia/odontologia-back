@@ -1,13 +1,14 @@
 import { gql } from 'apollo-server-express'
+import profesional from '../../models/profesional';
 import db from '../database'
 const { Op } = require("sequelize");
 
 
 export const typeDefs = gql`
   extend type Query{
-    horarios: [Horario]
+    horarios(profesional:String): [Horario]
     horario(id:ID!): Horario
-    horarioPorDia(fecha:String):[Horario]
+    horarioPorDia(fecha:String, profesional:String):[Horario]
     horarioPorDiaHora(fecha:String, hora:AllowedHour):Horario   
   }
   type Horario{
@@ -42,6 +43,19 @@ export const typeDefs = gql`
     SEVENTEEN
     SEVENTEENH
   }
+  
+  input addDate{
+    profesional:String
+    paciente: String
+    duracion:Duration!
+    hora:AllowedHour!
+    fecha:String
+  }
+  
+  extend type Mutation{
+    agregarCita(input:addDate):Horario
+    eliminarHorario(turno_id:Int):Horario
+  }
 `
 export const resolvers = {
   Duration:{
@@ -69,13 +83,27 @@ export const resolvers = {
     SEVENTEENH: '17:30',
   },
   Query: {
-    horarios: async () =>db.horarios.findAll(),
+    horarios: async (_,{profesional}) =>{
+      try{
+        const prof = profesional;
+        let turnos = [];
+        if (prof === 'null'){
+          turnos = await db.horarios.findAll();
+        } else {
+          turnos = await db.horarios.findAll({where:{profesional:profesional}})
+        }; return turnos
+        
+      } catch {
+        throw new Error('no hay turnos para mostrar')
+      }
+    },
        
     horario: async (obj, args, context, info) =>
       db.horarios.findByPk(args.id),
     horarioPorDiaHora: async (_,{fecha, hora}) =>{
       try{
         const horario = await db.horarios.findOne({where: { [Op.and]: [
+          { profesional: profesional},
           { fecha: fecha },
           { hora: hora }
         ]}})
@@ -88,16 +116,51 @@ export const resolvers = {
         throw new Error('Error')
       }
     },
-    horarioPorDia: async (_, {fecha}) =>{
+    horarioPorDia: async (_, {fecha, profesional}) =>{
       try{
-        const horario = await db.horarios.findAll({where: {fecha:fecha}})
-        if (horario === null){
-          return ''
+        let turnos = [];
+        if (profesional === 'all'){
+          turnos = await db.horarios.findAll({where: {fecha:fecha}});
         } else {
-          return horario
-        }
+          turnos = await db.horarios.findAll({where:{[Op.and]:[
+            {profesional:profesional},
+            {fecha: fecha}
+          ]}})
+        }; return turnos
+        
       } catch {
         throw new Error('Error')
+      }
+    }
+  },
+  Mutation:{
+    agregarCita: async (_, {input}) =>{
+      try{
+        const data = await db.horarios.findOne({where:{[Op.and]: [
+          { fecha: input.fecha },
+          { hora: input.hora }
+        ]}})
+        if (data){
+          throw new Error('ya existe ese horario')
+        } else {
+          const cita = await db.horarios.create(input)
+          return cita
+        }
+        
+      } catch {
+        throw new Error('error al crear la cita')
+      }
+    },
+    eliminarHorario: async (_,{turno_id}) =>{
+      try{
+        let horario = await db.horarios.destroy({where: {turno_id:turno_id}})
+        if (horario){
+          return 'Ok'
+        } else {
+          return 'no existe horario'
+        }
+      } catch {
+        throw new Error('no existe el horario')
       }
     }
   }

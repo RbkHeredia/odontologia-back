@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     fecha: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(20),
       allowNull: false
     }
   }, {

@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server-express'
-import profesional from '../../models/profesional';
 import db from '../database'
 const { Op } = require("sequelize");
 
@@ -7,9 +6,7 @@ const { Op } = require("sequelize");
 export const typeDefs = gql`
   extend type Query{
     horarios(profesional:String): [Horario]
-    horario(id:ID!): Horario
     horarioPorDia(fecha:String, profesional:String):[Horario]
-    horarioPorDiaHora(fecha:String, hora:AllowedHour):Horario   
   }
   type Horario{
     turno_id:ID
@@ -97,25 +94,7 @@ export const resolvers = {
         throw new Error('no hay turnos para mostrar')
       }
     },
-       
-    horario: async (obj, args, context, info) =>
-      db.horarios.findByPk(args.id),
-    horarioPorDiaHora: async (_,{fecha, hora}) =>{
-      try{
-        const horario = await db.horarios.findOne({where: { [Op.and]: [
-          { profesional: profesional},
-          { fecha: fecha },
-          { hora: hora }
-        ]}})
-        if (horario === null){
-          return ''
-        } else {
-          return horario
-        }
-      } catch {
-        throw new Error('Error')
-      }
-    },
+    
     horarioPorDia: async (_, {fecha, profesional}) =>{
       try{
         let turnos = [];
@@ -162,7 +141,8 @@ export const resolvers = {
       } catch {
         throw new Error('no existe el horario')
       }
-    }
+    },
+    
   }
 }
 

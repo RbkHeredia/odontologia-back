@@ -4,11 +4,29 @@ const bodyParser = require('body-parser')
 const { ApolloServer } = require('apollo-server-express')
 const cors = require('cors')
 const app = express()
+const jwt =  require('jsonwebtoken')
+require('dotenv').config()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
+const getUser = token => {
+    try {
+      if (token) {
+        return jwt.verify(token, JWT_SECRET)
+      }
+      return null
+    } catch (error) {
+      return null
+    }
+  }
 const server = new ApolloServer({
+    context: ({ req }) => {
+        const token = req.get('Authorization') || ''
+        return { user: getUser(token.replace('Bearer', ''))}
+      },
+      introspection: true,
+      playground: true,
     modules: [
         require('./GraphQL/horarios.js'),
         require('./GraphQL/paciente.js'),

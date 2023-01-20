@@ -16,7 +16,7 @@ module.exports = {
     externals: [nodeExternals()],
     mode: 'development',
     devtool: 'inline-source-map',
-    entry: './app/app.js',
+    entry: './app/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'app.js',

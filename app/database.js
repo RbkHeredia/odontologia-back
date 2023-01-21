@@ -4,12 +4,12 @@ require('dotenv').config()
 var db = {}
 
 const sequelize = new Sequelize(
-    process.env.DATABASE_NAME,
-    process.env.DATABASE_USER,
-    process.env.DATABASE_PASSWORD,
+    process.env.MYSQLDATABASE,
+    process.env.MYSQLUSER,
+    process.env.MYSQLPASSWORD,
     {
-        host: process.env.DATABASE_HOST,
-        port: process.env.DATABASE_PORT,
+        host: process.env.MYSQLHOST,
+        port: process.env.MYSQLPORT,
         dialect: 'mysql',
         define: {
             freezeTableName: true,

@@ -17,7 +17,7 @@ export const typeDefs = gql `
     password:String
     nombre:String
     especialidad:String
-    celular:Int
+    celular:String
     email:String
     avatar:String
   }
@@ -30,7 +30,7 @@ export const typeDefs = gql `
     password:String
     nombre:String
     especialidad:String
-    celular:Int
+    celular:String
     email:String
     avatar:String
   }

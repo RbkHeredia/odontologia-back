@@ -9,7 +9,6 @@ require('dotenv').config()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-////SET NODE_OPTIONS=--openssl-legacy-provider
 
 const getUser = token => {
     try {

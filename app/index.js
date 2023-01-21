@@ -28,11 +28,11 @@ const server = new ApolloServer({
       },
       introspection: true,
       playground: true,
-    modules: [
-        require('./GraphQL/horarios.js'),
-        require('./GraphQL/paciente.js'),
-        require('./GraphQL/notas.js'),
-        require('./GraphQL/profesional.js')
+      modules: [
+        require('./graphql/horarios.js'),
+        require('./graphql/paciente.js'),
+        require('./graphql/notas.js'),
+        require('./graphql/profesional.js')
     ],
 })
 

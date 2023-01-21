@@ -82,9 +82,8 @@ export const resolvers = {
   Query: {
     horarios: async (_,{profesional}) =>{
       try{
-        const prof = profesional;
         let turnos = [];
-        if (prof === 'null'){
+        if (profesional === 'null' || profesional === 'all'){
           turnos = await db.horarios.findAll();
         } else {
           turnos = await db.horarios.findAll({where:{profesional:profesional}})

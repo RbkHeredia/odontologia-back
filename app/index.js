@@ -42,7 +42,7 @@ const serverRun = async () =>{
     
     app.get('/', (req, res) => res.send('Hello World!'))
     
-    app.listen({ port: 5000 }, () =>
+    app.listen({ port: $PORT }, () =>
         console.log(`🚀 Server ready at http://localhost:5000`),
     )
 }
